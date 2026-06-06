@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StoryNest Bookstore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f6fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --primary: #5b4be6;
+      --primary-soft: rgba(91, 75, 230, 0.12);
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg, #f8f7ff 0%, #eef1ff 100%);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .button {
+      border-radius: 999px;
+      padding: 11px 20px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button.login {
+      color: var(--text);
+      background: white;
+      border-color: var(--border);
+      box-shadow: 0 10px 35px rgba(15, 23, 42, 0.06);
+    }
+
+    .button.signup {
+      color: white;
+      background: var(--primary);
+      box-shadow: 0 18px 40px rgba(91, 75, 230, 0.25);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      padding: 48px 0 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 3.5vw, 4.4rem);
+      line-height: 1.05;
+      margin: 0 0 18px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 620px;
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .search-panel {
+      display: grid;
+      gap: 16px;
+      background: white;
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .search-panel label {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .search-panel input,
+    .search-panel select {
+      width: 100%;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-panel input:focus,
+    .search-panel select:focus {
+      border-color: rgba(91, 75, 230, 0.5);
+      box-shadow: 0 0 0 4px rgba(91, 75, 230, 0.08);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1.4fr 0.7fr;
+      gap: 16px;
+    }
+
+    .search-row button {
+      border: none;
+      border-radius: 18px;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .search-row button:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: grid;
+      gap: 18px;
+      justify-items: end;
+    }
+
+    .hero-card {
+      width: 100%;
+      min-height: 380px;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: linear-gradient(180deg, #ffffff 0%, #f9f9ff 100%);
+      position: relative;
+    }
+
+    .hero-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(91, 75, 230, 0.24), transparent 42%);
+      pointer-events: none;
+    }
+
+    .key-numbers {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .stat {
+      background: white;
+      border-radius: 22px;
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+      min-width: 130px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.45rem;
+      margin-bottom: 8px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 48px 0 24px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .section-heading a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 18px;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid transparent;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(91, 75, 230, 0.16);
+    }
+
+    .category-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .category-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+      margin-bottom: 48px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(91, 75, 230, 0.16);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-info {
+      padding: 20px;
+    }
+
+    .product-title {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .product-author,
+    .product-price {
+      margin: 4px 0;
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    .product-price {
+      color: var(--text);
+      font-weight: 700;
+      margin-top: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 0 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        justify-items: center;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+      }
+
+      .button-group {
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="logo">B</div>
+        <div>
+          <div>StoryNest</div>
+          <div style="font-size:0.9rem;color:#6b7280;">Books for every reader</div>
+        </div>
+      </div>
+      <nav>
+        <a class="nav-link" href="#categories">Categories</a>
+        <a class="nav-link" href="#featured">Featured</a>
+        <a class="nav-link" href="#best-sellers">Best Sellers</a>
+      </nav>
+      <div class="button-group">
+        <button class="button login">Login</button>
+        <button class="button signup">Sign Up</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Discover books that inspire your next great story.</h1>
+        <p>Explore a curated selection of novels, biographies, fantasy adventures, children's books, and motivational reads. Find your next favorite with smart search and curated recommendations.</p>
+
+        <div class="search-panel">
+          <div>
+            <label for="book-search">Search for a book</label>
+            <input id="book-search" type="search" placeholder="e.g. mystery, fantasy, self-help, business" />
+          </div>
+          <div class="search-row">
+            <select aria-label="Choose category">
+              <option value="all">All genres</option>
+              <option value="fiction">Fiction</option>
+              <option value="nonfiction">Non-fiction</option>
+              <option value="children">Children</option>
+              <option value="fantasy">Fantasy</option>
+              <option value="biography">Biography</option>
+            </select>
+            <button type="button">Search books</button>
+          </div>
+          <p style="margin:0;color:#4b5563;font-size:0.95rem;">Browse books, compare prices, and get inspired by our best selections below.</p>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card">
+          <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80" alt="Open book on a table" />
+        </div>
+        <div class="key-numbers">
+          <div class="stat">
+            <strong>34K+</strong>
+            <span>Books available</span>
+          </div>
+          <div class="stat">
+            <strong>4.9/5</strong>
+            <span>Customer rating</span>
+          </div>
+          <div class="stat">
+            <strong>24h</strong>
+            <span>Fast support</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="categories">
+      <div class="section-heading">
+        <h2>Book categories</h2>
+        <a href="#featured">View all</a>
+      </div>
+      <div class="categories">
+        <article class="category-card">
+          <h3>Fiction</h3>
+          <p>Novels, thrillers, romance and literary fiction that transport you to another world.</p>
+        </article>
+        <article class="category-card">
+          <h3>Non-fiction</h3>
+          <p>Biographies, history, business, health, and essays to grow your knowledge.</p>
+        </article>
+        <article class="category-card">
+          <h3>Children</h3>
+          <p>Picture books, early readers, and adventures for young minds and families.</p>
+        </article>
+        <article class="category-card">
+          <h3>Fantasy</h3>
+          <p>Magic, epic quests, and imaginative worlds for every fantasy fan.</p>
+        </article>
+        <article class="category-card">
+          <h3>Self-help</h3>
+          <p>Personal growth, mindfulness, and productivity guides to improve every day.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="featured">
+      <div class="section-heading">
+        <h2>Featured books</h2>
+        <a href="#best-sellers">See best sellers</a>
+      </div>
+      <div class="products-grid">
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80" alt="Fiction book cover" />
+          <div class="product-info">
+            <h3 class="product-title">The Midnight Library</h3>
+            <p class="product-author">by Matt Haig</p>
+            <p class="product-price">$16.99</p>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=900&q=80" alt="Business book" />
+          <div class="product-info">
+            <h3 class="product-title">Atomic Habits</h3>
+            <p class="product-author">by James Clear</p>
+            <p class="product-price">$14.50</p>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=900&q=80" alt="Children's book" />
+          <div class="product-info">
+            <h3 class="product-title">The Very Hungry Caterpillar</h3>
+            <p class="product-author">by Eric Carle</p>
+            <p class="product-price">$8.99</p>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1519682577862-22b62b24e493?auto=format&fit=crop&w=900&q=80" alt="Fantasy novel" />
+          <div class="product-info">
+            <h3 class="product-title">The Name of the Wind</h3>
+            <p class="product-author">by Patrick Rothfuss</p>
+            <p class="product-price">$18.99</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="best-sellers">
+      <div class="section-heading">
+        <h2>Popular picks with prices</h2>
+        <a href="#book-search">Search now</a>
+      </div>
+      <div class="products-grid">
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1496104679561-38a04f8d3f95?auto=format&fit=crop&w=900&q=80" alt="Motivational book" />
+          <div class="product-info">
+            <h3 class="product-title">Dare to Lead</h3>
+            <p class="product-author">by Brené Brown</p>
+            <p class="product-price">$17.49</p>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=900&q=80" alt="Novel book" />
+          <div class="product-info">
+            <h3 class="product-title">Where the Crawdads Sing</h3>
+            <p class="product-author">by Delia Owens</p>
+            <p class="product-price">$15.75</p>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80" alt="Self-help book" />
+          <div class="product-info">
+            <h3 class="product-title">The Subtle Art of Not Giving a F*ck</h3>
+            <p class="product-author">by Mark Manson</p>
+            <p class="product-price">$13.20</p>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80" alt="Biography book" />
+          <div class="product-info">
+            <h3 class="product-title">Educated</h3>
+            <p class="product-author">by Tara Westover</p>
+            <p class="product-price">$16.25</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <p>StoryNest Bookstore · Browse books, compare prices, and find inspiration.</p>
+    </footer>
+  </div>
+</body>
+</html>
